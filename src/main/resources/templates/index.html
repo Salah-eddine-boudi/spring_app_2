@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Catalogue audio</title>
+  <style>
+    /* votre CSS… */
+  </style>
+</head>
+<body>
+  <h1>Audios & Transcriptions</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Titre</th><th>Auteur</th><th>Durée</th><th>Écouter</th><th>Transcription</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="a : ${audios}">
+        <td th:text="${a.title}">Titre</td>
+        <td th:text="${a.author}">Auteur</td>
+        <td th:text="${a.duration}">00:00</td>
+        <td>
+          <audio controls 
+                 th:src="@{/audio/stream/{fn}(fn=${a.filename})}">
+          </audio>
+        </td>
+        <td class="transcript-cell">
+          <pre th:if="${a.transcriptAr != null and !#strings.isEmpty(a.transcriptAr)}"
+               th:text="${a.transcriptAr}">
+            Transcription…
+          </pre>
+          <span th:if="${a.transcriptAr == null or #strings.isEmpty(a.transcriptAr)}"
+                style="color:#999;font-style:italic">
+            Pas de transcription disponible
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "app.audio.folder",
+  "type": "java.lang.String",
+  "description": "A description for 'app.audio.folder'"
+}]}
