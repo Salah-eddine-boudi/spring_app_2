@@ -6,13 +6,14 @@ import jakarta.persistence.*;
 @Table(name = "test_1")
 public class AudioFileInfo {
 
-    @Id
+    
     @Column(name = "title_id")
     private String titleId;
 
     @Column(name = "title")
     private String title;
-
+    
+    @Id
     @Column(name = "soundfile_name")
     private String soundfileName;
 

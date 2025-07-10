@@ -4,36 +4,105 @@
   <meta charset="UTF-8">
   <title>Catalogue audio</title>
   <style>
-    /* votre CSS… */
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      text-align: left;
+    }
+
+    .transcript-cell pre {
+      white-space: pre-wrap;
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-radius: 5px;
+      direction: ltr;
+    }
+
+    .rtl {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .transcript-cell span {
+      color: #999;
+      font-style: italic;
+    }
+
+    .en-cours {
+      color: #999;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
   <h1>Audios & Transcriptions</h1>
+
   <table>
     <thead>
       <tr>
-        <th>Titre</th><th>Auteur</th><th>Durée</th><th>Écouter</th><th>Transcription</th>
+        <th>N°</th>
+        <th>Titre</th>
+        <th>Auteur</th>
+        <th>Durée</th>
+        <th>Écouter</th>
+        <th>Transcription</th>
+        <th>Interprète</th>
+        <th>Mots-clés</th>
+        <th>Compagnie</th>
+        <th>Album</th>
+        <th>Date enregistrement</th>
+        <th>Dernière modification</th>
+        <th>Commentaires</th>
       </tr>
     </thead>
     <tbody>
-      <tr th:each="a : ${audios}">
+      <tr th:each="a, stat : ${audios}">
+        <td th:text="${stat.index + 1}">1</td>
         <td th:text="${a.title}">Titre</td>
         <td th:text="${a.author}">Auteur</td>
         <td th:text="${a.duration}">00:00</td>
         <td>
-          <audio controls 
-                 th:src="@{/audio/stream/{fn}(fn=${a.filename})}">
-          </audio>
+          <audio controls th:src="@{/audio/stream/{fn}(fn=${a.filename})}"></audio>
         </td>
         <td class="transcript-cell">
-          <pre th:if="${a.transcriptAr != null and !#strings.isEmpty(a.transcriptAr)}"
-               th:text="${a.transcriptAr}">
-            Transcription…
+          <pre th:if="${a.transcript != null and !#strings.isEmpty(a.transcript)}"
+                th:text="${a.transcript}"
+                th:classappend="${#strings.contains(a.transcript, '\u0627') ? 'rtl' : ''}">
           </pre>
-          <span th:if="${a.transcriptAr == null or #strings.isEmpty(a.transcriptAr)}"
-                style="color:#999;font-style:italic">
+          <span th:if="${a.transcript == null or #strings.isEmpty(a.transcript)}">
             Pas de transcription disponible
           </span>
+        </td>
+        <td th:text="${a.interpret}">Interprète</td>
+        <td th:text="${a.keywords}">Mots-clés</td>
+        <td th:text="${a.compagnie}">Compagnie</td>
+        <td th:text="${a.album}">Album</td>
+        <td th:text="${a.recordDate}">Date enreg.</td>
+        <td th:text="${a.lastModifTime}">Dernière modif</td>
+        <td>
+          <p th:text="${a.commentaire1}">Commentaire 1</p>
+          <p th:text="${a.commentaire2}">Commentaire 2</p>
+          <p th:text="${a.commentaire3}">Commentaire 3</p>
         </td>
       </tr>
     </tbody>
